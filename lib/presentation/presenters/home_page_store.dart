@@ -1,19 +1,20 @@
-import 'package:empresta_super_app/data/models/health_insurance_model.dart';
-import 'package:empresta_super_app/data/models/institution_model.dart';
-import 'package:empresta_super_app/data/models/simulation_model.dart';
 import 'package:empresta_super_app/data/usecases/remote_health_insurance.dart';
 import 'package:empresta_super_app/data/usecases/remote_institution.dart';
 import 'package:empresta_super_app/data/usecases/remote_simulation.dart';
+import 'package:empresta_super_app/domain/entities/health_insurance_entity.dart';
+import 'package:empresta_super_app/domain/entities/institution_entity.dart';
+import 'package:empresta_super_app/domain/entities/simulation_entity.dart';
 import 'package:mobx/mobx.dart';
 
 part 'home_page_store.g.dart';
 
+// ignore: library_private_types_in_public_api
 class HomePageStore = _HomePageStore with _$HomePageStore;
 
 abstract class _HomePageStore with Store {
-  final RemoteHealthInsurance remoteHealthInsurance;
-  final RemoteInstitution remoteInstitution;
-  final RemoteSimulation remoteSimulation;
+  final RemoteHealthInsuranceImpl remoteHealthInsurance;
+  final RemoteInstitutionImpl remoteInstitution;
+  final RemoteSimulationImpl remoteSimulation;
 
   _HomePageStore(this.remoteHealthInsurance, this.remoteInstitution,
       this.remoteSimulation) {
@@ -23,20 +24,20 @@ abstract class _HomePageStore with Store {
   }
 
   @observable
-  ObservableList<HealthInsuranceModel> healthInsurances =
-      ObservableList<HealthInsuranceModel>();
+  ObservableList<HealthInsuranceEntity> healthInsurances =
+      ObservableList<HealthInsuranceEntity>();
 
   @observable
-  ObservableList<HealthInsuranceModel> selectedInsurances =
-      ObservableList<HealthInsuranceModel>();
+  ObservableList<HealthInsuranceEntity> selectedInsurances =
+      ObservableList<HealthInsuranceEntity>();
 
   @observable
-  ObservableList<InstitutionModel> institutions =
-      ObservableList<InstitutionModel>();
+  ObservableList<InstitutionEntity> institutions =
+      ObservableList<InstitutionEntity>();
 
   @observable
-  ObservableList<InstitutionModel> selectedInstitutions =
-      ObservableList<InstitutionModel>();
+  ObservableList<InstitutionEntity> selectedInstitutions =
+      ObservableList<InstitutionEntity>();
 
   @observable
   ObservableList<int> installments = ObservableList<int>();
@@ -48,12 +49,12 @@ abstract class _HomePageStore with Store {
   String loanValue = '';
 
   @observable
-  List<SimulationModelResponse>? simulationData;
+  List<SimulationModelResponseEntity>? simulationData;
 
   @action
   Future<void> fetchHealthInsurances() async {
     try {
-      final List<HealthInsuranceModel> fetchedInsurances =
+      final List<HealthInsuranceEntity> fetchedInsurances =
           await remoteHealthInsurance.fetchConvenios();
 
       healthInsurances.clear();
@@ -64,7 +65,7 @@ abstract class _HomePageStore with Store {
   }
 
   @action
-  void toggleInsuranceSelection(HealthInsuranceModel insurance) {
+  void toggleInsuranceSelection(HealthInsuranceEntity insurance) {
     if (selectedInsurances.contains(insurance)) {
       selectedInsurances.remove(insurance);
     } else {
@@ -75,7 +76,7 @@ abstract class _HomePageStore with Store {
   @action
   Future<void> fetchInstitutions() async {
     try {
-      final List<InstitutionModel> fetchedInstitutions =
+      final List<InstitutionEntity> fetchedInstitutions =
           await remoteInstitution.fetchInstitutions();
 
       institutions.clear();
@@ -93,7 +94,7 @@ abstract class _HomePageStore with Store {
   }
 
   @action
-  void toggleInstitutionSelection(InstitutionModel insurance) {
+  void toggleInstitutionSelection(InstitutionEntity insurance) {
     if (selectedInstitutions.contains(insurance)) {
       selectedInstitutions.remove(insurance);
     } else {
@@ -135,8 +136,7 @@ abstract class _HomePageStore with Store {
           double.parse(loanValue),
           selectedInstitutionValues,
           selectedInsuranceValues,
-          installmentsSelected[
-              0], // Considere apenas o primeiro valor das parcelas selecionadas (pode ser alterado conforme a lógica necessária)
+          installmentsSelected[0],
         );
       } else {
         throw Exception(

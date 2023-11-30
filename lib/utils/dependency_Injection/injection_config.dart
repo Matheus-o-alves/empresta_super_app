@@ -5,9 +5,9 @@ import 'package:empresta_super_app/presentation/presenters/home_page_store.dart'
 import 'package:get_it/get_it.dart';
 
 void configureInjection() {
-  RemoteHealthInsurance remoteHealthInsurance = RemoteHealthInsurance();
-  RemoteInstitution remoteInstitution = RemoteInstitution();
-  RemoteSimulation remoteSimulation = RemoteSimulation();
+  RemoteHealthInsuranceImpl remoteHealthInsurance = RemoteHealthInsuranceImpl();
+  RemoteInstitutionImpl remoteInstitution = RemoteInstitutionImpl();
+  RemoteSimulationImpl remoteSimulation = RemoteSimulationImpl();
 
   final getIt = GetIt.instance;
 

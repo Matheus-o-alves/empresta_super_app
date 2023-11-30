@@ -13,13 +13,13 @@ mixin _$HomePageStore on _HomePageStore, Store {
       Atom(name: '_HomePageStore.healthInsurances', context: context);
 
   @override
-  ObservableList<HealthInsuranceModel> get healthInsurances {
+  ObservableList<HealthInsuranceEntity> get healthInsurances {
     _$healthInsurancesAtom.reportRead();
     return super.healthInsurances;
   }
 
   @override
-  set healthInsurances(ObservableList<HealthInsuranceModel> value) {
+  set healthInsurances(ObservableList<HealthInsuranceEntity> value) {
     _$healthInsurancesAtom.reportWrite(value, super.healthInsurances, () {
       super.healthInsurances = value;
     });
@@ -29,13 +29,13 @@ mixin _$HomePageStore on _HomePageStore, Store {
       Atom(name: '_HomePageStore.selectedInsurances', context: context);
 
   @override
-  ObservableList<HealthInsuranceModel> get selectedInsurances {
+  ObservableList<HealthInsuranceEntity> get selectedInsurances {
     _$selectedInsurancesAtom.reportRead();
     return super.selectedInsurances;
   }
 
   @override
-  set selectedInsurances(ObservableList<HealthInsuranceModel> value) {
+  set selectedInsurances(ObservableList<HealthInsuranceEntity> value) {
     _$selectedInsurancesAtom.reportWrite(value, super.selectedInsurances, () {
       super.selectedInsurances = value;
     });
@@ -45,13 +45,13 @@ mixin _$HomePageStore on _HomePageStore, Store {
       Atom(name: '_HomePageStore.institutions', context: context);
 
   @override
-  ObservableList<InstitutionModel> get institutions {
+  ObservableList<InstitutionEntity> get institutions {
     _$institutionsAtom.reportRead();
     return super.institutions;
   }
 
   @override
-  set institutions(ObservableList<InstitutionModel> value) {
+  set institutions(ObservableList<InstitutionEntity> value) {
     _$institutionsAtom.reportWrite(value, super.institutions, () {
       super.institutions = value;
     });
@@ -61,13 +61,13 @@ mixin _$HomePageStore on _HomePageStore, Store {
       Atom(name: '_HomePageStore.selectedInstitutions', context: context);
 
   @override
-  ObservableList<InstitutionModel> get selectedInstitutions {
+  ObservableList<InstitutionEntity> get selectedInstitutions {
     _$selectedInstitutionsAtom.reportRead();
     return super.selectedInstitutions;
   }
 
   @override
-  set selectedInstitutions(ObservableList<InstitutionModel> value) {
+  set selectedInstitutions(ObservableList<InstitutionEntity> value) {
     _$selectedInstitutionsAtom.reportWrite(value, super.selectedInstitutions,
         () {
       super.selectedInstitutions = value;
@@ -127,13 +127,13 @@ mixin _$HomePageStore on _HomePageStore, Store {
       Atom(name: '_HomePageStore.simulationData', context: context);
 
   @override
-  List<SimulationModelResponse>? get simulationData {
+  List<SimulationModelResponseEntity>? get simulationData {
     _$simulationDataAtom.reportRead();
     return super.simulationData;
   }
 
   @override
-  set simulationData(List<SimulationModelResponse>? value) {
+  set simulationData(List<SimulationModelResponseEntity>? value) {
     _$simulationDataAtom.reportWrite(value, super.simulationData, () {
       super.simulationData = value;
     });
@@ -177,7 +177,7 @@ mixin _$HomePageStore on _HomePageStore, Store {
       ActionController(name: '_HomePageStore', context: context);
 
   @override
-  void toggleInsuranceSelection(HealthInsuranceModel insurance) {
+  void toggleInsuranceSelection(HealthInsuranceEntity insurance) {
     final _$actionInfo = _$_HomePageStoreActionController.startAction(
         name: '_HomePageStore.toggleInsuranceSelection');
     try {
@@ -188,7 +188,7 @@ mixin _$HomePageStore on _HomePageStore, Store {
   }
 
   @override
-  void toggleInstitutionSelection(InstitutionModel insurance) {
+  void toggleInstitutionSelection(InstitutionEntity insurance) {
     final _$actionInfo = _$_HomePageStoreActionController.startAction(
         name: '_HomePageStore.toggleInstitutionSelection');
     try {

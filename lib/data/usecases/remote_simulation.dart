@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'package:empresta_super_app/data/models/simulation_model.dart';
+import 'package:empresta_super_app/domain/entities/simulation_entity.dart';
+import 'package:empresta_super_app/domain/usecases/request_simulation.dart';
 import 'package:http/http.dart' as http;
 
-class RemoteSimulation {
-  Future<List<SimulationModelResponse>> simulateLoan(
+class RemoteSimulationImpl implements SimulationUseCase {
+  @override
+  Future<List<SimulationModelResponseEntity>> simulateLoan(
     double loanValue,
     List<String> institutions,
     List<String> healthInsurances,
     int installments,
   ) async {
-    const String baseUrl = 'HOST'; // Substitua pelo seu host
+    const String baseUrl = "HOST"; // Substitua pelo seu host
     final Uri url = Uri.parse('$baseUrl/api/simular');
 
     Map<String, dynamic> payload = {
@@ -32,8 +35,9 @@ class RemoteSimulation {
       if (response.statusCode == 200) {
         List<dynamic> responseData = jsonDecode(response.body);
 
-        List<SimulationModelResponse> simulations = responseData
-            .map((simulation) => SimulationModelResponse.fromJson(simulation))
+        List<SimulationModelResponseEntity> simulations = responseData
+            .map((simulation) =>
+                _mapToEntity(SimulationModelResponse.fromJson(simulation)))
             .toList();
 
         return simulations;
@@ -43,5 +47,14 @@ class RemoteSimulation {
     } catch (e) {
       throw Exception('Erro na requisição de simulação: $e');
     }
+  }
+
+  SimulationModelResponseEntity _mapToEntity(SimulationModelResponse model) {
+    return SimulationModelResponseEntity(
+      institution: model.institution,
+      requestedValue: model.requestedValue,
+      installmentXValue: model.installmentXValue,
+      interestRate: model.interestRate,
+    );
   }
 }

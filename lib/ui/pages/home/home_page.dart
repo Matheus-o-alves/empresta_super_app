@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Seleção de Convênios de Saúde'),
+        title: const Text('O melhor lugar para seu emprestimo'),
         backgroundColor: const Color(0xFFEF6C00),
       ),
       body: Container(
@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
                           decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: 'Selecione os convênios',
+                            labelText: 'Selecione  convênios',
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -102,15 +102,6 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        if (store.selectedInsurances.isNotEmpty)
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 16.0, top: 8.0),
-                            child: Text(
-                              'Itens selecionados: ${store.selectedInsurances.map((insurance) => insurance.valor).toList()}',
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
                       ],
                     );
                   }
@@ -132,7 +123,7 @@ class HomePage extends StatelessWidget {
                           decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: 'Selecione os convênios',
+                            labelText: 'Selecione as Instituições',
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -155,15 +146,6 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        if (store.selectedInstitutions.isNotEmpty)
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 16.0, top: 8.0),
-                            child: Text(
-                              'Itens selecionados: ${store.selectedInstitutions.map((insurance) => insurance.valor).toList()}',
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
                       ],
                     );
                   }
@@ -208,15 +190,6 @@ class HomePage extends StatelessWidget {
                           style: const TextStyle(color: Colors.black),
                           dropdownColor: Colors.white,
                         ),
-                        if (store.institutions.isNotEmpty)
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 16.0, top: 8.0),
-                            child: Text(
-                              'Item selecionado: ${store.institutions[0].valor}',
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
                       ],
                     );
                   }

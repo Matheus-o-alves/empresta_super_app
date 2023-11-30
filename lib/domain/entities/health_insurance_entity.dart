@@ -1,14 +1,11 @@
-class InstitutionEntity {
+class HealthInsuranceEntity {
   final String chave;
   final String valor;
 
-  InstitutionEntity({
-    required this.chave,
-    required this.valor,
-  });
+  HealthInsuranceEntity({required this.chave, required this.valor});
 
-  factory InstitutionEntity.fromJson(Map<String, dynamic> json) {
-    return InstitutionEntity(
+  factory HealthInsuranceEntity.fromJson(Map<String, dynamic> json) {
+    return HealthInsuranceEntity(
       chave: json['chave'],
       valor: json['valor'],
     );
