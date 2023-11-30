@@ -6,8 +6,7 @@ import 'package:empresta_super_app/data/models/institution_model.dart';
 class RemoteInstitution {
   Future<List<InstitutionModel>> fetchInstitutions() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://127.0.0.1:8000/api/instituicao'));
+      final response = await http.get(Uri.parse('HOST/api/instituicao'));
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body) as List<dynamic>;

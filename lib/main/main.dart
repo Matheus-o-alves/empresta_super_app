@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Target App',
+      title: 'Empresta+',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: const Color(0xFF0A2540),
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       ),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('pt', 'BR'),
-      initialRoute: '/home',
+      initialRoute: '/',
       getPages: [
         GetPage(
           name: '/',

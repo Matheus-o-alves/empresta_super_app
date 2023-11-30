@@ -1,7 +1,9 @@
 import 'package:empresta_super_app/data/models/health_insurance_model.dart';
 import 'package:empresta_super_app/data/models/institution_model.dart';
-import 'package:empresta_super_app/data/usecases/remote_health_insurance_model.dart';
+import 'package:empresta_super_app/data/models/simulation_model.dart';
+import 'package:empresta_super_app/data/usecases/remote_health_insurance.dart';
 import 'package:empresta_super_app/data/usecases/remote_institution.dart';
+import 'package:empresta_super_app/data/usecases/remote_simulation.dart';
 import 'package:mobx/mobx.dart';
 
 part 'home_page_store.g.dart';
@@ -11,8 +13,10 @@ class HomePageStore = _HomePageStore with _$HomePageStore;
 abstract class _HomePageStore with Store {
   final RemoteHealthInsurance remoteHealthInsurance;
   final RemoteInstitution remoteInstitution;
+  final RemoteSimulation remoteSimulation;
 
-  _HomePageStore(this.remoteHealthInsurance, this.remoteInstitution) {
+  _HomePageStore(this.remoteHealthInsurance, this.remoteInstitution,
+      this.remoteSimulation) {
     fetchHealthInsurances();
     fetchInstitutions();
     fetchInstalment();
@@ -42,6 +46,9 @@ abstract class _HomePageStore with Store {
 
   @observable
   String loanValue = '';
+
+  @observable
+  List<SimulationModelResponse>? simulationData;
 
   @action
   Future<void> fetchHealthInsurances() async {
@@ -105,6 +112,38 @@ abstract class _HomePageStore with Store {
 
   @action
   void updateLoanValue(String value) {
-    loanValue = value;
+    final clearedValue = value.replaceAll(RegExp(r'[^0-9]'), '');
+    final doubleValue = double.parse(clearedValue) / 100;
+    loanValue = doubleValue.toString();
+  }
+
+  @action
+  Future<void> sendSimulationData() async {
+    try {
+      if (selectedInsurances.isNotEmpty &&
+          selectedInstitutions.isNotEmpty &&
+          installmentsSelected.isNotEmpty &&
+          loanValue.isNotEmpty) {
+        List<String> selectedInsuranceValues = selectedInsurances
+            .map((insurance) => insurance.valor.toUpperCase())
+            .toList();
+        List<String> selectedInstitutionValues = selectedInstitutions
+            .map((institution) => institution.valor.toUpperCase())
+            .toList();
+
+        simulationData = await remoteSimulation.simulateLoan(
+          double.parse(loanValue),
+          selectedInstitutionValues,
+          selectedInsuranceValues,
+          installmentsSelected[
+              0], // Considere apenas o primeiro valor das parcelas selecionadas (pode ser alterado conforme a lógica necessária)
+        );
+      } else {
+        throw Exception(
+            'Preencha todos os campos necessários para a simulação');
+      }
+    } catch (e) {
+      throw Exception('Erro ao enviar dados para a simulação: $e');
+    }
   }
 }

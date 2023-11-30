@@ -1,5 +1,3 @@
-import 'package:empresta_super_app/data/models/health_insurance_model.dart';
-import 'package:empresta_super_app/data/models/institution_model.dart';
 import 'package:empresta_super_app/presentation/presenters/home_page_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,20 +18,21 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Seleção de Convênios de Saúde'),
+        title: const Text('Seleção de Convênios de Saúde'),
+        backgroundColor: const Color(0xFFEF6C00),
       ),
       body: Container(
-          color: Color(0xFF0A2540),
-          padding: EdgeInsets.all(16.0),
+          color: const Color(0xFF0A2540),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormField(
                   controller: loanValueController,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
                     labelText: 'Valor do Empréstimo',
@@ -65,51 +64,51 @@ class HomePage extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Observer(
                 builder: (_) {
                   if (store.healthInsurances.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   } else {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        DropdownButtonFormField<HealthInsuranceModel>(
-                          decoration: InputDecoration(
+                        InputDecorator(
+                          decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
                             labelText: 'Selecione os convênios',
                           ),
-                          value: store.selectedInsurances.isNotEmpty
-                              ? store.selectedInsurances[0]
-                              : null,
-                          items: store.healthInsurances
-                              .map((insurance) => DropdownMenuItem(
-                                    value: insurance,
-                                    child: Text(insurance.valor),
-                                  ))
-                              .toList(),
-                          onChanged: (value) {
-                            if (value != null) {
-                              store.toggleInsuranceSelection(value);
-                            }
-                          },
-                          isExpanded: true,
-                          icon: Icon(Icons.arrow_drop_down),
-                          iconSize: 24,
-                          elevation: 16,
-                          style: TextStyle(color: Colors.black),
-                          dropdownColor: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Wrap(
+                              alignment: WrapAlignment.start,
+                              children: store.healthInsurances
+                                  .map((insurance) => FilterChip(
+                                        label: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(insurance.valor),
+                                        ),
+                                        selected: store.selectedInsurances
+                                            .contains(insurance),
+                                        onSelected: (selected) {
+                                          store.toggleInsuranceSelection(
+                                              insurance);
+                                        },
+                                      ))
+                                  .toList(),
+                            ),
+                          ),
                         ),
                         if (store.selectedInsurances.isNotEmpty)
                           Padding(
                             padding:
                                 const EdgeInsets.only(left: 16.0, top: 8.0),
                             child: Text(
-                              'Item selecionado: ${store.selectedInsurances[0].valor}',
-                              style: TextStyle(color: Colors.white),
+                              'Itens selecionados: ${store.selectedInsurances.map((insurance) => insurance.valor).toList()}',
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
                       ],
@@ -117,51 +116,52 @@ class HomePage extends StatelessWidget {
                   }
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
+              const SizedBox(height: 20),
               Observer(
                 builder: (_) {
                   if (store.institutions.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   } else {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        DropdownButtonFormField<InstitutionModel>(
-                          decoration: InputDecoration(
+                        InputDecorator(
+                          decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: 'Selecione a intituição',
+                            labelText: 'Selecione os convênios',
                           ),
-                          value: store.selectedInstitutions.isNotEmpty
-                              ? store.selectedInstitutions[0]
-                              : null,
-                          items: store.institutions
-                              .map((insurance) => DropdownMenuItem(
-                                    value: insurance,
-                                    child: Text(insurance.valor),
-                                  ))
-                              .toList(),
-                          onChanged: (value) {
-                            if (value != null) {
-                              store.toggleInstitutionSelection(value);
-                            }
-                          },
-                          isExpanded: true,
-                          icon: Icon(Icons.arrow_drop_down),
-                          iconSize: 24,
-                          elevation: 16,
-                          style: TextStyle(color: Colors.black),
-                          dropdownColor: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Wrap(
+                              alignment: WrapAlignment.start,
+                              children: store.institutions
+                                  .map((insurance) => FilterChip(
+                                        label: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(insurance.valor),
+                                        ),
+                                        selected: store.selectedInstitutions
+                                            .contains(insurance),
+                                        onSelected: (selected) {
+                                          store.toggleInstitutionSelection(
+                                              insurance);
+                                        },
+                                      ))
+                                  .toList(),
+                            ),
+                          ),
                         ),
-                        if (store.institutions.isNotEmpty)
+                        if (store.selectedInstitutions.isNotEmpty)
                           Padding(
                             padding:
                                 const EdgeInsets.only(left: 16.0, top: 8.0),
                             child: Text(
-                              'Item selecionado: ${store.institutions[0].valor}',
-                              style: TextStyle(color: Colors.white),
+                              'Itens selecionados: ${store.selectedInstitutions.map((insurance) => insurance.valor).toList()}',
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
                       ],
@@ -169,11 +169,11 @@ class HomePage extends StatelessWidget {
                   }
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Observer(
                 builder: (_) {
                   if (store.installments.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   } else {
@@ -181,7 +181,7 @@ class HomePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         DropdownButtonFormField<int>(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
                             labelText:
@@ -202,10 +202,10 @@ class HomePage extends StatelessWidget {
                             }
                           },
                           isExpanded: true,
-                          icon: Icon(Icons.arrow_drop_down),
+                          icon: const Icon(Icons.arrow_drop_down),
                           iconSize: 24,
                           elevation: 16,
-                          style: TextStyle(color: Colors.black),
+                          style: const TextStyle(color: Colors.black),
                           dropdownColor: Colors.white,
                         ),
                         if (store.institutions.isNotEmpty)
@@ -214,7 +214,7 @@ class HomePage extends StatelessWidget {
                                 const EdgeInsets.only(left: 16.0, top: 8.0),
                             child: Text(
                               'Item selecionado: ${store.institutions[0].valor}',
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
                       ],
@@ -222,20 +222,101 @@ class HomePage extends StatelessWidget {
                   }
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  // Do something with store.selectedInsurances
-                  // e.g., pass store.selectedInsurances to the next screen or perform some action
-                  print('Selected Insurances: ${store.selectedInsurances}');
+                onPressed: () async {
+                  await store.sendSimulationData();
+
+                  Future.delayed(const Duration(milliseconds: 500));
+
+                  if (store.simulationData != null &&
+                      store.simulationData!.isNotEmpty) {
+                    // ignore: use_build_context_synchronously
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Dados da Simulação',
+                                style: TextStyle(
+                                  color: Color(0xFF0A2540),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              _buildDataBlock(
+                                title: 'Instituição:',
+                                data: store.simulationData![0].institution,
+                              ),
+                              _buildDataBlock(
+                                title: 'Valor Solicitado:',
+                                data: store.simulationData![0].requestedValue
+                                    .toString(),
+                              ),
+                              _buildDataBlock(
+                                title: 'Valor da Parcela:',
+                                data:
+                                    store.simulationData![0].installmentXValue,
+                              ),
+                              _buildDataBlock(
+                                title: 'Taxa de Juros:',
+                                data: store.simulationData![0].interestRate,
+                              ),
+                            ],
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                'Fechar',
+                                style: TextStyle(
+                                  color: Color(0xFF0A2540),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
-                child: Text('Salvar'),
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xFFEF6C00),
+                  backgroundColor: const Color(0xFFEF6C00),
                 ),
+                child: const Text('Simular'),
               ),
             ],
           )),
     );
   }
+}
+
+Widget _buildDataBlock({required String title, required String data}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        title,
+        style: const TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      const SizedBox(height: 4),
+      Text(
+        data,
+        style: const TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      const SizedBox(height: 16),
+    ],
+  );
 }

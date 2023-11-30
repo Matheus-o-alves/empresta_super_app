@@ -107,6 +107,38 @@ mixin _$HomePageStore on _HomePageStore, Store {
     });
   }
 
+  late final _$loanValueAtom =
+      Atom(name: '_HomePageStore.loanValue', context: context);
+
+  @override
+  String get loanValue {
+    _$loanValueAtom.reportRead();
+    return super.loanValue;
+  }
+
+  @override
+  set loanValue(String value) {
+    _$loanValueAtom.reportWrite(value, super.loanValue, () {
+      super.loanValue = value;
+    });
+  }
+
+  late final _$simulationDataAtom =
+      Atom(name: '_HomePageStore.simulationData', context: context);
+
+  @override
+  List<SimulationModelResponse>? get simulationData {
+    _$simulationDataAtom.reportRead();
+    return super.simulationData;
+  }
+
+  @override
+  set simulationData(List<SimulationModelResponse>? value) {
+    _$simulationDataAtom.reportWrite(value, super.simulationData, () {
+      super.simulationData = value;
+    });
+  }
+
   late final _$fetchHealthInsurancesAsyncAction =
       AsyncAction('_HomePageStore.fetchHealthInsurances', context: context);
 
@@ -130,6 +162,15 @@ mixin _$HomePageStore on _HomePageStore, Store {
   @override
   Future<void> fetchInstalment() {
     return _$fetchInstalmentAsyncAction.run(() => super.fetchInstalment());
+  }
+
+  late final _$sendSimulationDataAsyncAction =
+      AsyncAction('_HomePageStore.sendSimulationData', context: context);
+
+  @override
+  Future<void> sendSimulationData() {
+    return _$sendSimulationDataAsyncAction
+        .run(() => super.sendSimulationData());
   }
 
   late final _$_HomePageStoreActionController =
@@ -169,6 +210,17 @@ mixin _$HomePageStore on _HomePageStore, Store {
   }
 
   @override
+  void updateLoanValue(String value) {
+    final _$actionInfo = _$_HomePageStoreActionController.startAction(
+        name: '_HomePageStore.updateLoanValue');
+    try {
+      return super.updateLoanValue(value);
+    } finally {
+      _$_HomePageStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 healthInsurances: ${healthInsurances},
@@ -176,7 +228,9 @@ selectedInsurances: ${selectedInsurances},
 institutions: ${institutions},
 selectedInstitutions: ${selectedInstitutions},
 installments: ${installments},
-installmentsSelected: ${installmentsSelected}
+installmentsSelected: ${installmentsSelected},
+loanValue: ${loanValue},
+simulationData: ${simulationData}
     ''';
   }
 }

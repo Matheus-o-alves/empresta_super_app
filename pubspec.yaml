@@ -32,8 +32,6 @@ dependencies:
     sdk: flutter
   http: ^1.1.0
   get: ^4.6.5
-  path_provider:
-  rxdart:
   flutter_dotenv:
   mask_text_input_formatter:
   get_it:
@@ -51,7 +49,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner:
   mobx_codegen:
 
   # The "flutter_lints" package below contains a set of recommended lints to

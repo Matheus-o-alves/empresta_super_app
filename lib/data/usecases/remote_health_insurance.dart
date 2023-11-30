@@ -5,8 +5,7 @@ import 'package:http/http.dart' as http;
 class RemoteHealthInsurance {
   Future<List<HealthInsuranceModel>> fetchConvenios() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://127.0.0.1:8000/api/convenio'));
+      final response = await http.get(Uri.parse('HOST/api/convenio'));
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = jsonDecode(response.body);
